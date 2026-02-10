@@ -1,0 +1,820 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#0b1220" />
+    <title>The SharpeSystem — when things don’t make sense</title>
+    <meta
+      name="description"
+      content="SharpeSystem helps you take a confusing situation and turn it into a clear next step — without big words or guesswork."
+    />
+
+    <style>
+      /* =========================================================
+         The SharpeSystem — home (Plain Authority tone)
+         Visual style: aligned with the Sharpe Legal “sharp” dark UI
+         No external deps (Cloudflare Pages / GitHub Pages friendly)
+      ========================================================= */
+
+      :root {
+        --bg: #070b14;
+        --panel: rgba(255, 255, 255, 0.04);
+        --panel-2: rgba(255, 255, 255, 0.06);
+        --text: rgba(255, 255, 255, 0.92);
+        --muted: rgba(255, 255, 255, 0.70);
+        --faint: rgba(255, 255, 255, 0.55);
+        --border: rgba(255, 255, 255, 0.10);
+        --border-2: rgba(255, 255, 255, 0.14);
+        --accent: #7dd3fc;   /* Sharpe cyan */
+        --accent-2: #a78bfa; /* Sharpe violet */
+        --ok: #34d399;
+        --warn: #fb7185;
+        --shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+        --radius: 18px;
+        --radius-sm: 12px;
+        --max: 1120px;
+        --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+          "Courier New", monospace;
+        --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+          "Apple Color Emoji", "Segoe UI Emoji";
+      }
+
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+
+      body {
+        margin: 0;
+        font-family: var(--sans);
+        color: var(--text);
+        line-height: 1.5;
+        background:
+          radial-gradient(1200px 600px at 20% 0%, rgba(125, 211, 252, 0.13), transparent 60%),
+          radial-gradient(900px 600px at 85% 10%, rgba(167, 139, 250, 0.12), transparent 55%),
+          radial-gradient(800px 500px at 50% 100%, rgba(52, 211, 153, 0.06), transparent 55%),
+          var(--bg);
+      }
+
+      a { color: inherit; text-decoration: none; }
+
+      a:focus-visible,
+      button:focus-visible,
+      input:focus-visible,
+      textarea:focus-visible,
+      select:focus-visible {
+        outline: 2px solid rgba(125, 211, 252, 0.65);
+        outline-offset: 2px;
+        border-radius: 10px;
+      }
+
+      .wrap {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* ---------- Top Nav ---------- */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        background: rgba(7, 11, 20, 0.72);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 14px 0;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 240px;
+      }
+
+      .logo {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        border: 1px solid var(--border-2);
+        background: linear-gradient(135deg, rgba(125, 211, 252, 0.18), rgba(167, 139, 250, 0.16));
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .logo:before {
+        content: "";
+        position: absolute;
+        inset: -30%;
+        background:
+          radial-gradient(circle at 30% 30%, rgba(125, 211, 252, 0.55), transparent 40%),
+          radial-gradient(circle at 70% 60%, rgba(167, 139, 250, 0.45), transparent 45%);
+        transform: rotate(12deg);
+      }
+
+      .brand .title { font-weight: 700; letter-spacing: 0.2px; }
+      .brand .subtitle {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--faint);
+        margin-top: 2px;
+      }
+
+      .navlinks {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .navlinks a {
+        font-size: 14px;
+        color: var(--muted);
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: 1px solid transparent;
+      }
+
+      .navlinks a:hover {
+        color: var(--text);
+        border-color: rgba(255, 255, 255, 0.10);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: 12px;
+        border: 1px solid rgba(125, 211, 252, 0.38);
+        background: linear-gradient(135deg, rgba(125, 211, 252, 0.12), rgba(167, 139, 250, 0.10));
+        color: var(--text);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+      }
+
+      .cta:hover { border-color: rgba(125, 211, 252, 0.55); transform: translateY(-1px); }
+
+      .cta .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: var(--accent);
+        box-shadow: 0 0 0 3px rgba(125, 211, 252, 0.15);
+      }
+
+      /* ---------- Layout ---------- */
+      main { padding: 34px 0 80px; }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 18px;
+        align-items: stretch;
+        margin-top: 24px;
+      }
+
+      @media (max-width: 980px) {
+        .hero { grid-template-columns: 1fr; }
+        .brand { min-width: unset; }
+      }
+
+      .card {
+        border: 1px solid var(--border);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.03));
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+      }
+
+      .hero-left {
+        padding: 26px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-left:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(900px 320px at 20% 0%, rgba(125, 211, 252, 0.12), transparent 50%),
+          radial-gradient(900px 360px at 90% 20%, rgba(167, 139, 250, 0.10), transparent 55%);
+      }
+
+      .kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--mono);
+        color: var(--muted);
+        font-size: 13px;
+        padding: 8px 10px;
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+
+      .kicker .pill {
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(125, 211, 252, 0.35);
+        color: rgba(125, 211, 252, 0.95);
+        background: rgba(125, 211, 252, 0.08);
+      }
+
+      h1 {
+        margin: 16px 0 10px;
+        font-size: clamp(30px, 3.2vw, 46px);
+        line-height: 1.12;
+        letter-spacing: -0.02em;
+      }
+
+      .lead {
+        margin: 0;
+        color: var(--muted);
+        font-size: 16px;
+        max-width: 62ch;
+      }
+
+      .hero-actions {
+        margin-top: 18px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1px solid var(--border-2);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        cursor: pointer;
+        font-size: 14px;
+        user-select: none;
+      }
+
+      .btn:hover {
+        border-color: rgba(255, 255, 255, 0.22);
+        background: rgba(255, 255, 255, 0.06);
+        transform: translateY(-1px);
+      }
+
+      .btn-primary {
+        border-color: rgba(125, 211, 252, 0.46);
+        background: linear-gradient(135deg, rgba(125, 211, 252, 0.14), rgba(167, 139, 250, 0.12));
+      }
+
+      .btn-primary:hover { border-color: rgba(125, 211, 252, 0.64); }
+
+      .btn .arrow {
+        font-family: var(--mono);
+        color: rgba(125, 211, 252, 0.95);
+      }
+
+      .micro {
+        margin-top: 14px;
+        color: var(--faint);
+        font-size: 13px;
+      }
+
+      .micro code {
+        font-family: var(--mono);
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        background: rgba(255, 255, 255, 0.03);
+        color: rgba(255, 255, 255, 0.78);
+      }
+
+      /* ---------- Right Panel (Intake) ---------- */
+      .hero-right { padding: 18px; }
+
+      .panel-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+
+      .panel-title h2 { margin: 0; font-size: 15px; letter-spacing: 0.1px; }
+
+      .badge {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.78);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.03);
+        padding: 6px 8px;
+        border-radius: 999px;
+      }
+
+      .intake {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.03);
+        padding: 14px;
+      }
+
+      .intake label {
+        display: block;
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+
+      .intake textarea {
+        width: 100%;
+        min-height: 120px;
+        resize: vertical;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(0, 0, 0, 0.22);
+        color: var(--text);
+        padding: 12px;
+        font-family: var(--sans);
+        font-size: 14px;
+        line-height: 1.4;
+      }
+
+      .intake textarea::placeholder { color: rgba(255, 255, 255, 0.35); }
+
+      .intake .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      @media (max-width: 520px) {
+        .intake .row { grid-template-columns: 1fr; }
+      }
+
+      .intake select,
+      .intake input {
+        width: 100%;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(0, 0, 0, 0.22);
+        color: var(--text);
+        padding: 10px 12px;
+        font-size: 14px;
+      }
+
+      .intake .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .hint {
+        margin-top: 10px;
+        font-size: 12.5px;
+        color: var(--faint);
+      }
+
+      .hint strong { color: rgba(255, 255, 255, 0.85); font-weight: 600; }
+
+      /* ---------- Sections ---------- */
+      .section { margin-top: 22px; }
+
+      .section-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 14px;
+        margin: 26px 0 12px;
+      }
+
+      .section-head h3 {
+        margin: 0;
+        font-size: 15px;
+        letter-spacing: 0.2px;
+      }
+
+      .section-head p {
+        margin: 0;
+        color: var(--faint);
+        font-size: 13px;
+        max-width: 78ch;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 12px;
+      }
+
+      .tile {
+        grid-column: span 6;
+        padding: 16px;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+        position: relative;
+        overflow: hidden;
+      }
+
+      .tile:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 160ms ease;
+        background:
+          radial-gradient(420px 180px at 20% 10%, rgba(125, 211, 252, 0.10), transparent 55%),
+          radial-gradient(420px 200px at 90% 30%, rgba(167, 139, 250, 0.10), transparent 60%);
+      }
+
+      .tile:hover:before { opacity: 1; }
+
+      @media (max-width: 880px) {
+        .tile { grid-column: span 12; }
+      }
+
+      .tile-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .tile h4 {
+        margin: 0;
+        font-size: 14px;
+        letter-spacing: 0.2px;
+      }
+
+      .chip {
+        font-family: var(--mono);
+        font-size: 12px;
+        padding: 5px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.03);
+        color: rgba(255, 255, 255, 0.78);
+        white-space: nowrap;
+      }
+
+      .tile p {
+        margin: 8px 0 12px;
+        color: var(--muted);
+        font-size: 13.5px;
+      }
+
+      .tile a {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: rgba(125, 211, 252, 0.95);
+        font-size: 13.5px;
+        padding: 8px 0;
+      }
+
+      .tile a span { font-family: var(--mono); }
+
+      /* ---------- Footer ---------- */
+      footer {
+        margin-top: 34px;
+        border-top: 1px solid var(--border);
+        padding: 20px 0 26px;
+        color: var(--faint);
+        font-size: 13px;
+      }
+
+      .foot {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .foot .links {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .foot .links a {
+        color: var(--muted);
+        border: 1px solid transparent;
+        padding: 6px 8px;
+        border-radius: 10px;
+      }
+
+      .foot .links a:hover {
+        border-color: rgba(255, 255, 255, 0.10);
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text);
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="wrap">
+        <div class="nav">
+          <a class="brand" href="/" aria-label="The SharpeSystem home">
+            <div class="logo" aria-hidden="true"></div>
+            <div>
+              <div class="title">The SharpeSystem</div>
+              <div class="subtitle">need → pathway → resolution</div>
+            </div>
+          </a>
+
+          <nav class="navlinks" aria-label="Primary">
+            <a href="#how">How it works</a>
+            <a href="#modules">Modules</a>
+            <a href="/status.html">Status</a>
+            <a href="/legal.html">Sharpe Legal</a>
+            <a class="cta" href="#start">
+              <span class="dot" aria-hidden="true"></span>
+              Start here
+            </a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="wrap">
+        <section class="hero" id="start">
+          <div class="card hero-left">
+            <div class="kicker">
+              <span class="pill">Navigator</span>
+              for paperwork, deadlines, and systems that don’t explain themselves
+            </div>
+
+            <h1>When things don’t make sense,<br />this helps you find the next right step.</h1>
+
+            <p class="lead">
+              You can come here with a letter, an email, a denial, a notice, or a situation you can’t name yet.
+              You don’t need the right words. You don’t need to know the rules.
+            </p>
+
+            <p class="lead" style="margin-top: 10px">
+              We take what you tell us and turn it into a short path: what this most likely is, what matters right now,
+              what to do next, and what not to do yet.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#start">
+                Start with your situation <span class="arrow">→</span>
+              </a>
+              <a class="btn" href="/legal.html">Go to Sharpe Legal</a>
+              <a class="btn" href="/status.html">What this is / is not</a>
+            </div>
+
+            <div class="micro">
+              You’ll always get the same format:
+              <code>What this is</code> · <code>What’s at risk</code> · <code>Next steps</code> · <code>Do not do yet</code>
+            </div>
+          </div>
+
+          <aside class="card hero-right" aria-label="Quick intake panel">
+            <div class="panel-title">
+              <h2>Start here</h2>
+              <span class="badge">v0 — front door</span>
+            </div>
+
+            <div class="intake">
+              <form id="intakeForm">
+                <label for="story">Tell me what happened. (2–8 sentences)</label>
+                <textarea
+                  id="story"
+                  name="story"
+                  placeholder="Example: I got an email saying I’m missing paperwork. I’m not sure what they want. I think there’s a deadline. I’m worried I’ll lose my benefits/case/job if I mess this up."
+                  required
+                ></textarea>
+
+                <div class="row">
+                  <div>
+                    <label for="domain">If you had to guess, what area is this?</label>
+                    <select id="domain" name="domain">
+                      <option value="unknown" selected>Not sure</option>
+                      <option value="legal">Legal / Court</option>
+                      <option value="immigration">Immigration</option>
+                      <option value="benefits">Benefits / Medi-Cal / EDD</option>
+                      <option value="school">School / Education</option>
+                      <option value="health">Health / Healthcare</option>
+                      <option value="finance">Finance / Taxes</option>
+                      <option value="work">Work / HR</option>
+                      <option value="housing">Housing</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label for="deadline">Any deadline you see?</label>
+                    <input id="deadline" name="deadline" type="text" placeholder="e.g., Feb 20 / 10 days / none" />
+                  </div>
+                </div>
+
+                <div class="actions">
+                  <button class="btn btn-primary" type="submit">
+                    Get my next steps <span class="arrow">→</span>
+                  </button>
+                  <a class="btn" href="/legal.html">Sharpe Legal</a>
+                </div>
+
+                <div class="hint">
+                  <strong>Note:</strong> This is the front page only. The “Get my next steps” button is wired to a
+                  safe placeholder for now, so the page can be deployed immediately and connected later.
+                </div>
+              </form>
+            </div>
+          </aside>
+        </section>
+
+        <section class="section" id="how">
+          <div class="section-head">
+            <div>
+              <h3>How it works</h3>
+              <p>
+                You tell us what happened. We help you sort it out. We keep it calm and we keep it in order.
+                If you need a professional, we tell you plainly and help you prepare.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="tile">
+              <div class="tile-top">
+                <h4>1) We figure out what this is</h4>
+                <span class="chip">best fit</span>
+              </div>
+              <p>
+                Many problems sound the same at first. We look for the signals that matter:
+                deadlines, missing documents, who is demanding what, and what happens next in cases like yours.
+              </p>
+              <a href="#modules">See modules <span>→</span></a>
+            </div>
+
+            <div class="tile">
+              <div class="tile-top">
+                <h4>2) We warn you before you get hurt</h4>
+                <span class="chip">stop list</span>
+              </div>
+              <p>
+                People get into trouble by acting too fast, replying the wrong way, or waiting too long.
+                We tell you what not to do yet, so you don’t make your situation worse.
+              </p>
+              <a href="/status.html">Read “what this is” <span>→</span></a>
+            </div>
+
+            <div class="tile">
+              <div class="tile-top">
+                <h4>3) You get a short list for today</h4>
+                <span class="chip">1–3 steps</span>
+              </div>
+              <p>
+                You will not get a long checklist. You’ll get the next few steps that actually move the situation forward.
+                Then we continue from there.
+              </p>
+              <a href="#start">Start now <span>→</span></a>
+            </div>
+
+            <div class="tile">
+              <div class="tile-top">
+                <h4>4) We help you stay steady</h4>
+                <span class="chip">no surprises</span>
+              </div>
+              <p>
+                When the next email or notice arrives, it should not take your breath away.
+                The system can prepare you for what’s likely coming so you’re ready when it shows up.
+              </p>
+              <a href="#modules">Explore what’s next <span>→</span></a>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="modules">
+          <div class="section-head">
+            <div>
+              <h3>Modules</h3>
+              <p>
+                SharpeSystem starts where you are, even if you don’t know what you’re dealing with yet.
+                These modules are where the paths live.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid">
+            <div class="tile">
+              <div class="tile-top">
+                <h4>Sharpe Legal</h4>
+                <span class="chip">live</span>
+              </div>
+              <p>
+                Court processes, filings, deadlines, and correspondence. Built to reduce mistakes, reduce panic,
+                and keep you moving in the right order.
+              </p>
+              <a href="/legal.html">Open Sharpe Legal <span>→</span></a>
+            </div>
+
+            <div class="tile">
+              <div class="tile-top">
+                <h4>Benefits / Medi-Cal</h4>
+                <span class="chip">planned</span>
+              </div>
+              <p>
+                Denials, missing paperwork, late submissions, appeals, and “they sent me in circles” problems.
+                Clear steps, plain wording, and help staying ahead of deadlines.
+              </p>
+              <a href="/status.html">See roadmap <span>→</span></a>
+            </div>
+
+            <div class="tile">
+              <div class="tile-top">
+                <h4>Immigration</h4>
+                <span class="chip">planned</span>
+              </div>
+              <p>
+                Organize your situation, track documents and dates, and prepare clean packets for advocates
+                or attorneys when you need them.
+              </p>
+              <a href="/status.html">See roadmap <span>→</span></a>
+            </div>
+
+            <div class="tile">
+              <div class="tile-top">
+                <h4>School / Education</h4>
+                <span class="chip">planned</span>
+              </div>
+              <p>
+                Enrollment issues, discipline, special education paperwork, and disputes that drag on.
+                The goal is simple: stop the runaround and get clear next steps.
+              </p>
+              <a href="/status.html">See roadmap <span>→</span></a>
+            </div>
+          </div>
+        </section>
+
+        <footer>
+          <div class="wrap">
+            <div class="foot">
+              <div>
+                <strong>The SharpeSystem</strong>
+                <span style="opacity: 0.5"> · </span>
+                <span>Plain guidance for complex systems.</span>
+              </div>
+              <div class="links">
+                <a href="/status.html">Status</a>
+                <a href="/legal.html">Sharpe Legal</a>
+                <a href="#start">Start here</a>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </main>
+
+    <script>
+      // v0 behavior: keep the front door deployable without backend
+      // Later: replace alert() with your API / Worker call and route into a case workspace.
+      (function () {
+        const form = document.getElementById("intakeForm");
+        if (!form) return;
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const story = (document.getElementById("story") || {}).value || "";
+          const domain = (document.getElementById("domain") || {}).value || "unknown";
+          const deadline = (document.getElementById("deadline") || {}).value || "";
+
+          const summary =
+            "Saved (local only).\n\n" +
+            "Next step: wire this form to your backend.\n\n" +
+            "Story:\n" + story.trim() + "\n\n" +
+            "Area: " + domain + "\n" +
+            "Deadline: " + (deadline.trim() || "not provided");
+
+          // Placeholder: replace with fetch("/api/intake", {method:"POST", body: ...})
+          alert(summary);
+        });
+      })();
+    </script>
+  </body>
+</html>
