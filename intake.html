@@ -2,244 +2,71 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Start — SharpeSystem</title>
+  <title>SharpeSystem — Intake</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="/styles.css" />
 </head>
 
 <body>
-  <!-- Shared header/nav -->
-  <div id="site-header"></div>
-  <script>
-    document.getElementById('issueText').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
-    document.getElementById('continueBtn').click();
+
+<div id="site-header"></div>
+<script>
+  fetch('/partials/header.html')
+    .then(r => r.text())
+    .then(html => { document.getElementById('site-header').innerHTML = html; })
+    .catch(() => {});
+</script>
+
+<main class="page">
+  <div class="container content">
+
+    <h1>Your Situation</h1>
+    <p id="userIssue" style="font-weight:600;"></p>
+
+    <hr>
+
+    <h2>First: Do Not Spiral</h2>
+    <ul>
+      <li>Do not escalate communication.</li>
+      <li>Do not drink or make impulsive decisions.</li>
+      <li>Do not attempt to “fix” everything immediately.</li>
+      <li>Stay boring. Stay clean. Stay employed.</li>
+    </ul>
+
+    <hr>
+
+    <h2>The Vertebra (C A B D)</h2>
+
+    <h3>C — Control</h3>
+    <p>Stabilize yourself before attempting to control the situation.</p>
+
+    <h3>A — Awareness</h3>
+    <p>Understand the institutional timeline. This will take longer than you think.</p>
+
+    <h3>B — Boundaries</h3>
+    <p>Reduce communication. Stop reacting emotionally.</p>
+
+    <h3>D — Documentation</h3>
+    <p>Everything runs on forms and structure. Format matters.</p>
+
+    <hr>
+
+    <p>
+      This is your starting position. More guidance will branch from here.
+    </p>
+
+  </div>
+</main>
+
+<script>
+  // Read issue from URL
+  const params = new URLSearchParams(window.location.search);
+  const issue = params.get("issue");
+
+  if (issue) {
+    document.getElementById("userIssue").textContent = issue;
   }
-});
-    fetch('/partials/header.html')
-      .then(r => r.text())
-      .then(html => { document.getElementById('site-header').innerHTML = html; })
-      .catch(() => {});
-  </script>
+</script>
 
-  <main class="page">
-    <div class="wrap" style="padding: 22px 18px 60px;">
-      <!-- INTAKE VIEW -->
-      <section class="panel" id="intakeView" aria-label="Intake">
-        <div class="kicker">
-          <span class="badge">Informational</span>
-          <span>Orientation first • Not legal advice</span>
-        </div>
-
-        <h1>Start here</h1>
-        <p class="sub">
-          Describe what’s going on in your own words. Then we’ll convert it into a manageable set of checkpoints.
-        </p>
-
-        <div class="note">
-          <strong>Reminder:</strong> SharpeSystem provides decision support and procedural orientation.
-          It does not provide legal advice.
-        </div>
-
-        <div class="hr"></div>
-
-        <label class="label" for="issueText">What’s going on?</label>
-        <textarea
-          class="input"
-          id="issueText"
-          rows="7"
-          placeholder="Example: We separated, there are kids involved, I received paperwork, I don’t know what matters, and communication is escalating."
-        ></textarea>
-
-        <div class="hr"></div>
-
-        <h2 style="margin:0 0 10px; font-size:16px;">Pick your anchor (one)</h2>
-        <p class="small" style="margin:0 0 10px;">
-          This determines the first “spine” of your next steps.
-        </p>
-
-        <div class="pill-row" role="group" aria-label="Anchor selection">
-          <label class="pill" style="cursor:pointer;">
-            <input type="radio" name="anchor" value="A" style="margin-right:8px;" checked />
-            A — Deadline / hearing
-          </label>
-          <label class="pill" style="cursor:pointer;">
-            <input type="radio" name="anchor" value="B" style="margin-right:8px;" />
-            B — Contact risk / escalation
-          </label>
-          <label class="pill" style="cursor:pointer;">
-            <input type="radio" name="anchor" value="C" style="margin-right:8px;" />
-            C — Stability check
-          </label>
-        </div>
-
-        <div class="hr"></div>
-
-        <button class="btn" id="continueBtn">Continue</button>
-        <button class="btn secondary" id="clearBtn" type="button">Clear</button>
-
-        <p class="small" style="margin-top:10px;">
-          Tip: you can stop after any step. The goal is “calibrated,” not “finished.”
-        </p>
-      </section>
-
-      <!-- OUTPUT VIEW -->
-      <section class="panel" id="outputView" aria-label="Output" style="display:none;">
-        <div class="kicker">
-          <span class="badge">Output</span>
-          <span>Checkpoint map • Not legal advice</span>
-        </div>
-
-        <h1>Your checkpoints</h1>
-        <p class="sub">
-          Below is your issue translated into a stable, actionable sequence. Keep it boring. Keep it clean.
-        </p>
-
-        <div class="hr"></div>
-
-        <h2 style="margin:0 0 10px; font-size:16px;">What you said</h2>
-        <div class="template-box" id="issueEcho" role="group" aria-label="Issue summary" style="white-space:pre-wrap;"></div>
-
-        <div class="hr"></div>
-
-        <div class="callout">
-          <div class="icon">✓</div>
-          <div>
-            <h3>Pattern-interrupt (read once)</h3>
-            <p id="patternInterrupt" style="margin:6px 0 0;"></p>
-          </div>
-        </div>
-
-        <div class="hr"></div>
-
-        <h2 style="margin:0 0 10px; font-size:16px;">Next steps (in order)</h2>
-        <ol id="stepsList"></ol>
-
-        <div class="hr"></div>
-
-        <h2 style="margin:0 0 10px; font-size:16px;">Where to go next</h2>
-        <div class="cta-row">
-          <a class="button" href="/trees.html">Decision Trees</a>
-          <a class="button secondary" href="/high-conflict-risk-awareness.html">Risk Awareness</a>
-          <a class="button secondary" href="/attorney-invite.html">For Attorneys (proof)</a>
-        </div>
-
-        <div class="hr"></div>
-
-        <button class="btn secondary" id="backBtn" type="button">Back</button>
-      </section>
-    </div>
-  </main>
-
-  <script>
-    function selectedAnchor() {
-      const el = document.querySelector('input[name="anchor"]:checked');
-      return el ? el.value : 'A';
-    }
-
-    function patternInterruptText(anchor) {
-      // Your tone spec: early shock, calm but pattern-interrupting, 60/40.
-      if (anchor === 'A') {
-        return "If there is a deadline or hearing, that becomes the spine. Most damage happens when people improvise under time pressure. Your job is to get dates, documents, and scope clear before you act.";
-      }
-      if (anchor === 'B') {
-        return "In high-conflict environments, intent rarely controls outcomes. Systems care about clarity on paper. Reduce ambiguity: one channel, one topic, no surprise contact, no escalation.";
-      }
-      // C
-      return "If your stability is compromised (sleep, alcohol, compulsive checking, rage texting), the first move is behavioral containment. You can’t out-think a dysregulated nervous system.";
-    }
-
-    function stepsForAnchor(anchor) {
-      if (anchor === 'A') {
-        return [
-          "<strong>Anchor the timeline:</strong> list your next date/deadline (even if uncertain).",
-          "<strong>Inventory documents:</strong> what you received, what you filed, what exists as a record.",
-          "<strong>Define the stage:</strong> what process you’re in and what “next” actually means.",
-          "<strong>Record hygiene:</strong> one channel, one topic at a time, clean formatting, no accusations.",
-          "<strong>Stability protocol:</strong> boring life until the immediate deadlines pass."
-        ];
-      }
-      if (anchor === 'B') {
-        return [
-          "<strong>Contain contact risk:</strong> stop improvising. Keep communication structured and minimal.",
-          "<strong>Move to record hygiene:</strong> one channel, one topic, no late-night spirals.",
-          "<strong>Clarify boundaries:</strong> what is requested, what is permitted, what is off-limits.",
-          "<strong>Map the institution:</strong> who has authority (court/agency) and what they actually read.",
-          "<strong>Then choose a tree:</strong> custody / protective order / criminal orientation."
-        ];
-      }
-      return [
-        "<strong>Stability first:</strong> sleep, hydration, no alcohol, no impulsive messages for 72 hours.",
-        "<strong>Reduce triggers:</strong> stop doom-scrolling; time-box case review to short windows.",
-        "<strong>Contain actions:</strong> no surprise contact, no “fix it right now” behavior.",
-        "<strong>Then anchor the timeline:</strong> identify next dates/deadlines and required steps.",
-        "<strong>Proceed with structure:</strong> Decision Trees only after baseline control returns."
-      ];
-    }
-
-    function setOutput(anchor, issueText) {
-      document.getElementById('issueEcho').textContent = issueText.trim();
-      document.getElementById('patternInterrupt').textContent = patternInterruptText(anchor);
-
-      const steps = stepsForAnchor(anchor);
-      const list = document.getElementById('stepsList');
-      list.innerHTML = "";
-      steps.forEach(s => {
-        const li = document.createElement('li');
-        li.innerHTML = s;
-        li.style.margin = "10px 0";
-        li.style.color = "var(--muted)";
-        list.appendChild(li);
-      });
-    }
-
-    document.getElementById('continueBtn').addEventListener('click', () => {
-      const issue = document.getElementById('issueText').value || "";
-      if (!issue.trim()) {
-        alert("Type a short description first.");
-        return;
-      }
-      const anchor = selectedAnchor();
-
-      setOutput(anchor, issue);
-
-      // Optional: persist for refresh
-      try {
-        localStorage.setItem('ss_issue', issue);
-        localStorage.setItem('ss_anchor', anchor);
-      } catch (e) {}
-
-      document.getElementById('intakeView').style.display = "none";
-      document.getElementById('outputView').style.display = "block";
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-
-    document.getElementById('backBtn').addEventListener('click', () => {
-      document.getElementById('outputView').style.display = "none";
-      document.getElementById('intakeView').style.display = "block";
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-
-    document.getElementById('clearBtn').addEventListener('click', () => {
-      document.getElementById('issueText').value = "";
-      document.querySelector('input[name="anchor"][value="A"]').checked = true;
-      try {
-        localStorage.removeItem('ss_issue');
-        localStorage.removeItem('ss_anchor');
-      } catch (e) {}
-    });
-
-    // Load saved draft (if any)
-    (function boot() {
-      try {
-        const saved = localStorage.getItem('ss_issue');
-        const a = localStorage.getItem('ss_anchor');
-        if (saved) document.getElementById('issueText').value = saved;
-        if (a && document.querySelector(`input[name="anchor"][value="${a}"]`)) {
-          document.querySelector(`input[name="anchor"][value="${a}"]`).checked = true;
-        }
-      } catch (e) {}
-    })();
-  </script>
 </body>
 </html>
