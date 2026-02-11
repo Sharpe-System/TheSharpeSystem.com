@@ -1,60 +1,166 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
   <title>SharpeSystem</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="/styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #ffffff;
+      color: #111;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+
+    .box {
+      max-width: 640px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+
+    .logo .e {
+      color: #c62828;
+    }
+
+    .tagline {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 32px;
+    }
+
+    .message {
+      font-size: 22px;
+      line-height: 1.35;
+      margin-bottom: 28px;
+    }
+
+    .input-wrap {
+      border: 1px solid #ddd;
+      border-radius: 999px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .input-wrap input {
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    .buttons {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 1px solid #ddd;
+      background: #f7f7f7;
+      padding: 10px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background: #efefef;
+    }
+
+    .note {
+      margin-top: 18px;
+      font-size: 13px;
+      color: #666;
+      min-height: 18px;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 12px;
+      color: #888;
+    }
+  </style>
 </head>
 
 <body>
-
-  <!-- Shared header -->
-  <div id="site-header"></div>
-  <script>
-    fetch('/partials/header.html')
-      .then(r => r.text())
-      .then(html => { document.getElementById('site-header').innerHTML = html; })
-      .catch(() => {});
-  </script>
-
   <div class="page">
-    <div class="container content" style="text-align:center; padding:100px 20px;">
+    <div class="box">
+      <div class="logo">
+        Sharp<span class="e">E</span>System
+      </div>
+      <div class="tagline">
+        A calm, structured way to find the next step.
+      </div>
 
-      <h1 style="font-size:40px; margin-bottom:30px;">SharpeSystem</h1>
+      <div class="message">
+        Let’s start where you are.<br>
+        Where would you like to begin?
+      </div>
 
-      <form id="issueForm" style="max-width:600px; margin:0 auto;">
-        <input 
-          type="text" 
-          id="issueInput" 
-          name="issue"
-          placeholder="What’s going on?"
-          required
-          autocomplete="off"
-          style="width:100%; padding:16px; font-size:18px; border-radius:8px; border:1px solid #ccc;"
-        />
+      <form id="startForm">
+        <div class="input-wrap">
+          <input
+            type="text"
+            id="startInput"
+            placeholder="Type a few words…"
+            maxlength="200"
+          >
+        </div>
 
-        <button 
-          type="submit" 
-          style="margin-top:20px; padding:14px 30px; font-size:16px; border:none; border-radius:8px; cursor:pointer;"
-        >
-          Start
-        </button>
+        <div class="buttons">
+          <button type="submit">Start</button>
+        </div>
+
+        <div class="note" id="note"></div>
       </form>
 
+      <footer>
+        SharpeSystem is being built to provide structured guidance.<br>
+        If you’re in immediate danger, contact local emergency services.
+      </footer>
     </div>
   </div>
 
   <script>
-    document.getElementById('issueForm').addEventListener('submit', function(e) {
+    const form = document.getElementById("startForm");
+    const input = document.getElementById("startInput");
+    const note = document.getElementById("note");
+
+    form.addEventListener("submit", function (e) {
       e.preventDefault();
+      const text = input.value.trim();
 
-      const issue = document.getElementById('issueInput').value.trim();
-      if (!issue) return;
+      if (!text) {
+        note.textContent = "You can start by typing a few words.";
+        return;
+      }
 
-      window.location.href = "/intake.html?issue=" + encodeURIComponent(issue);
+      try {
+        localStorage.setItem("sharpe_start", text);
+      } catch (e) {}
+
+      note.textContent = "Got it. We’ll help you turn this into a clear next step.";
     });
   </script>
-
 </body>
 </html>
