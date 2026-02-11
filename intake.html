@@ -11,6 +11,11 @@
   <!-- Shared header/nav -->
   <div id="site-header"></div>
   <script>
+    document.getElementById('issueText').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+    document.getElementById('continueBtn').click();
+  }
+});
     fetch('/partials/header.html')
       .then(r => r.text())
       .then(html => { document.getElementById('site-header').innerHTML = html; })
