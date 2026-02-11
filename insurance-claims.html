@@ -5,38 +5,23 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="color-scheme" content="dark light" />
   <meta name="theme-color" content="#0b0f14" />
-  <title>SharpeSystem — Insurance Claim Navigator</title>
+
+  <title>SharpeSystem — Insurance Claims</title>
   <meta name="description" content="Calm, plain navigation for insurance claims when you’re not sure what to do next." />
 
-  <!-- Global theme -->
- <link rel="stylesheet" href="./styles.css" />
+  <!-- IMPORTANT: load local stylesheet from same directory -->
+  <link rel="stylesheet" href="./styles.css" />
 
-  <!-- Page-only helpers (minimal) -->
+  <!-- Tiny page-only layout helpers -->
   <style>
-    /* Keep this tiny. Most styling should come from /styles.css */
     .two-col{
       display:grid;
-      grid-template-columns: 1.15fr .85fr;
+      grid-template-columns: 1.1fr .9fr;
       gap: 14px;
       margin-top: 12px;
+      align-items:start;
     }
     @media (max-width: 920px){ .two-col{ grid-template-columns: 1fr; } }
-
-    .chip{
-      display:inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.03);
-      color: var(--soft);
-      font-size: 12px;
-      font-weight: 760;
-      letter-spacing: .2px;
-      margin-bottom: 10px;
-    }
-
-    .btn-row{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-top: 12px; }
-    .mini{ font-size: 13px; color: var(--soft); }
 
     .grid{
       display:grid;
@@ -53,118 +38,95 @@
     }
     @media (max-width: 860px){ .tile{ grid-column: span 12; } }
 
-    .tile h3{ margin: 0 0 8px; }
-    .tile p{ margin: 0 0 10px; }
-
-    .hidden{ display:none !important; }
-    .pillbar{ display:flex; gap:8px; flex-wrap:wrap; margin: 10px 0 0; }
-    .pill{
-      font-size: 12px;
-      color: var(--soft);
-      border: 1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.03);
-      padding: 6px 10px;
-      border-radius: 999px;
-    }
-
-    .list-tight{ margin-top: 8px; }
-    .list-tight li{ margin: 6px 0; }
-
-    .panel{
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      border-radius: var(--radius);
-      padding: 14px;
-    }
+    /* Make <select> match .input */
+    select.input{ appearance:auto; }
   </style>
 </head>
 
 <body>
+  <!-- THIS is what gives you the premium header -->
   <header class="site-header">
     <div class="main-nav">
-      <a class="brand" href="/">The SharpeSystem</a>
+      <a class="brand" href="/index.html">The SharpeSystem</a>
       <div class="nav-links">
-        <a href="/legal.html">Sharpe Legal</a>
+        <a href="/index.html">Home</a>
         <a href="/status.html">Status</a>
-        <a class="nav-emphasis" href="#start">Insurance Claims</a>
+        <a class="nav-emphasis" href="/insurance-claims.html">Insurance</a>
       </div>
     </div>
   </header>
 
-  <main class="page" id="start">
+  <main class="page">
     <div class="container">
-      <section class="content">
-        <div class="chip">Insurance Claim Navigator</div>
+
+      <section class="content" id="start">
         <h1>Tell me what happened.</h1>
         <p class="lede">
           If you got a denial, a request for documents, or a message that made your stomach drop, start here.
           You don’t need the right words. Just explain it plainly.
         </p>
 
-        <!-- Minimal "Google-like" front door -->
-        <label class="label" for="story">What happened? (2–8 sentences)</label>
-        <textarea class="input" id="story" rows="6" placeholder="Example: My car was hit and the insurer keeps delaying. They asked for photos and an estimate. I don’t know what they really need or what happens next."></textarea>
-
         <div class="two-col">
           <div>
-            <label class="label" for="event">Best guess (optional)</label>
-            <select class="input" id="event">
-              <option value="not_sure" selected>Not sure</option>
-              <option value="auto">Car accident / vehicle damage</option>
-              <option value="property">Home / renters / property damage</option>
-              <option value="medical">Medical bills / claim denial</option>
-              <option value="life">Life insurance / death claim</option>
-              <option value="other">Other</option>
-            </select>
+            <label class="label" for="story">What happened? (2–8 sentences)</label>
+            <textarea class="input" id="story" rows="6" placeholder="Example: My car was hit and the insurer keeps delaying. They asked for photos and an estimate. I don’t know what they really need or what happens next."></textarea>
 
-            <label class="label" for="deadline">Any deadline you see? (optional)</label>
-            <input class="input" id="deadline" type="text" placeholder="e.g., 10 days / March 2 / none" />
+            <div class="two-col" style="grid-template-columns: 1fr 1fr; margin-top: 10px;">
+              <div>
+                <label class="label" for="event">Best guess (optional)</label>
+                <select class="input" id="event">
+                  <option value="not_sure" selected>Not sure</option>
+                  <option value="auto">Car accident / vehicle damage</option>
+                  <option value="property">Home / renters / property damage</option>
+                  <option value="medical">Medical bills / claim denial</option>
+                  <option value="life">Life insurance / death claim</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div>
+                <label class="label" for="deadline">Any deadline you see? (optional)</label>
+                <input class="input" id="deadline" type="text" placeholder="e.g., 10 days / March 2 / none" />
+              </div>
+            </div>
 
-            <div class="btn-row">
+            <div class="cta-row">
               <button class="button primary" id="btnGo" type="button">Find my next step</button>
               <button class="button" id="btnWizard" type="button">I’m not sure what this is</button>
             </div>
 
-            <p class="mini" style="margin-top:12px;">
+            <p class="muted" style="margin-top:12px;">
               This does not replace your insurer, your adjuster, or a lawyer. It helps you stay steady and move in order.
             </p>
           </div>
 
-          <aside class="panel">
-            <h2 style="margin-top:0;">What you’ll get</h2>
-            <p class="mini">
-              Same format every time:
-            </p>
-            <div class="pillbar">
-              <span class="pill"><strong>What this is</strong></span>
-              <span class="pill"><strong>What matters now</strong></span>
-              <span class="pill"><strong>Next steps</strong></span>
-              <span class="pill"><strong>Do not do yet</strong></span>
+          <aside class="template-box">
+            <h3 style="margin-top:0;">What you’ll get</h3>
+            <p class="muted" style="margin-bottom:10px;">Same format every time:</p>
+            <div class="template-box" style="margin-top:0;">
+              <p style="margin:0;"><strong>What this is</strong> · <strong>What matters now</strong> · <strong>Next steps</strong> · <strong>Do not do yet</strong></p>
             </div>
-            <div class="hr"></div>
-            <p class="mini">
+            <p class="muted" style="margin-top:12px; margin-bottom:0;">
               If you’re overwhelmed: that’s normal. The point is to prevent bad moves and missed dates.
             </p>
           </aside>
         </div>
 
+        <div class="hr"></div>
+
         <!-- Wizard -->
-        <div class="hr hidden" id="wizHr">
-        </div>
-        <section class="hidden" id="wizard">
-          <h2>Quick sorter</h2>
-          <p class="mini">One question at a time. If you don’t know, choose “Not sure.”</p>
+        <section id="wizard" class="template-box" style="display:none;">
+          <h3 style="margin-top:0;">Quick sorter</h3>
+          <p class="muted">One question at a time. If you don’t know, choose “Not sure.”</p>
 
           <div class="template-box" id="wizQ"></div>
 
-          <div class="two-col" style="margin-top:12px;">
+          <div class="two-col" style="grid-template-columns: 1fr 1fr; margin-top:10px;">
             <div>
               <label class="label" for="wizA">Choose one</label>
               <select class="input" id="wizA"></select>
             </div>
-            <div>
-              <label class="label">&nbsp;</label>
-              <div class="btn-row">
+            <div style="align-self:end;">
+              <div class="cta-row" style="margin-top:0;">
                 <button class="button primary" id="wizNext" type="button">Next</button>
                 <button class="button" id="wizBack" type="button">Back</button>
                 <button class="button" id="wizExit" type="button">Exit</button>
@@ -174,42 +136,37 @@
         </section>
 
         <!-- Result -->
-        <div class="hr hidden" id="resHr"></div>
-        <section class="hidden" id="result">
-          <div class="chip" id="resChip">Result</div>
-          <h2 id="resH2" style="margin-top:0;">Here’s the path that fits best.</h2>
-          <p class="mini" id="resLead"></p>
+        <section id="result" style="display:none; margin-top:14px;">
+          <h2 style="margin-top:0;">Here’s the path that fits best.</h2>
+          <p class="muted" id="resLead"></p>
 
           <div class="two-col">
-            <div class="panel">
-              <h3>Today list</h3>
-              <ul class="list-tight" id="todayList"></ul>
+            <div class="template-box">
+              <h3 style="margin-top:0;">Today list</h3>
+              <ul id="todayList"></ul>
 
               <div class="hr"></div>
 
               <h3>Do not do yet</h3>
-              <ul class="list-tight" id="stopList"></ul>
+              <ul id="stopList"></ul>
 
               <div class="hr"></div>
 
               <h3>What this usually means</h3>
               <div class="template-box" id="meaning"></div>
 
-              <div class="btn-row" style="margin-top:12px;">
+              <div class="cta-row">
                 <button class="button" id="btnReset" type="button">Back</button>
                 <a class="button primary" href="#services">Optional help</a>
               </div>
             </div>
 
-            <aside class="panel">
+            <aside class="template-box">
               <h3 style="margin-top:0;">What matters now</h3>
               <div class="template-box" id="matters"></div>
 
-              <div class="hr"></div>
-
               <div class="note">
-                <strong>Deadline note:</strong>
-                <span id="deadlineEcho">No deadline provided.</span>
+                <strong>Deadline note:</strong> <span id="deadlineEcho">No deadline provided.</span>
               </div>
             </aside>
           </div>
@@ -217,78 +174,75 @@
       </section>
 
       <section class="content" id="services" style="margin-top:14px;">
-        <div class="chip">Optional help</div>
         <h2 style="margin-top:0;">Extra help, if you want it.</h2>
-        <p class="mini">
-          Some people just want the path. Others want a checklist, a clean email, or a call plan. These are optional.
-        </p>
+        <p class="muted">These are optional. Some people just want the path. Others want a checklist, a clean email, or a call plan.</p>
 
         <div class="grid">
           <div class="tile">
             <h3>Document checklist</h3>
-            <p>Start with what you already have. Don’t wait for perfect.</p>
+            <p class="muted">Start with what you already have. Don’t wait for perfect.</p>
             <a class="button" href="#svc-docs" data-open="svc-docs">Open</a>
           </div>
 
           <div class="tile">
             <h3>Email help</h3>
-            <p>Short. Calm. Firm. No over-explaining.</p>
+            <p class="muted">Short. Calm. Firm. No over-explaining.</p>
             <a class="button" href="#svc-email" data-open="svc-email">Open</a>
           </div>
 
           <div class="tile">
             <h3>Call plan</h3>
-            <p>Questions to ask so you don’t hang up without clarity.</p>
+            <p class="muted">Questions to ask so you don’t hang up without clarity.</p>
             <a class="button" href="#svc-call" data-open="svc-call">Open</a>
           </div>
 
           <div class="tile">
             <h3>Inspection prep</h3>
-            <p>What to photograph and how to document damage.</p>
+            <p class="muted">What to photograph and how to document damage.</p>
             <a class="button" href="#svc-inspect" data-open="svc-inspect">Open</a>
           </div>
 
           <div class="tile">
             <h3>Advocate summary</h3>
-            <p>A one-page handoff you can give to an advocate or attorney.</p>
+            <p class="muted">A one-page handoff you can give to an advocate or attorney.</p>
             <a class="button" href="#svc-summary" data-open="svc-summary">Open</a>
           </div>
 
           <div class="tile">
             <h3>Follow-up schedule</h3>
-            <p>Simple reminders so the next email doesn’t catch you off guard.</p>
+            <p class="muted">Simple reminders so the next email doesn’t catch you off guard.</p>
             <a class="button" href="#svc-follow" data-open="svc-follow">Open</a>
           </div>
         </div>
 
-        <div class="template-box hidden" id="svc-docs" style="margin-top:12px;">
+        <div class="template-box" id="svc-docs" style="display:none;">
           <h3 style="margin-top:0;">Document checklist</h3>
-          <ul class="list-tight">
+          <ul>
             <li>Policy number (or a photo of the card)</li>
             <li>The letter/email you received (full page, not cropped)</li>
             <li>Photos of damage or the issue (wide + close)</li>
             <li>Receipts and estimates (even if incomplete)</li>
             <li>Claim number and adjuster contact (if you have it)</li>
           </ul>
-          <div class="btn-row">
+          <div class="cta-row">
             <button class="button" type="button" data-close>Back</button>
           </div>
         </div>
 
-        <div class="template-box hidden" id="svc-email" style="margin-top:12px;">
+        <div class="template-box" id="svc-email" style="display:none;">
           <h3 style="margin-top:0;">Email help</h3>
-          <div class="panel">
-            <p class="mini"><strong>Subject:</strong> Claim follow-up — request for next step</p>
-            <p class="mini"><strong>Body:</strong> Hello, I’m following up on my claim. Please confirm what you need from me next and the deadline to provide it. If you already requested documents, please list them again in one place. Thank you.</p>
+          <div class="template-box">
+            <p><strong>Subject:</strong> Claim follow-up — request for next step</p>
+            <p><strong>Body:</strong> Hello, I’m following up on my claim. Please confirm what you need from me next and the deadline to provide it. If you already requested documents, please list them again in one place. Thank you.</p>
           </div>
-          <div class="btn-row">
+          <div class="cta-row">
             <button class="button" type="button" data-close>Back</button>
           </div>
         </div>
 
-        <div class="template-box hidden" id="svc-call" style="margin-top:12px;">
+        <div class="template-box" id="svc-call" style="display:none;">
           <h3 style="margin-top:0;">Call plan</h3>
-          <ul class="list-tight">
+          <ul>
             <li>“What is the next step on your side?”</li>
             <li>“What is the next step on my side?”</li>
             <li>“What documents are missing, exactly?”</li>
@@ -296,27 +250,27 @@
             <li>“When should I expect an update if I send this today?”</li>
             <li>Write down: date, time, name, and what they promised.</li>
           </ul>
-          <div class="btn-row">
+          <div class="cta-row">
             <button class="button" type="button" data-close>Back</button>
           </div>
         </div>
 
-        <div class="template-box hidden" id="svc-inspect" style="margin-top:12px;">
+        <div class="template-box" id="svc-inspect" style="display:none;">
           <h3 style="margin-top:0;">Inspection prep</h3>
-          <ul class="list-tight">
+          <ul>
             <li>Take wide shots (context), then close shots (detail).</li>
             <li>Include one photo with a common object for scale (coin, tape measure).</li>
             <li>Do not repair or throw away damaged items until you know it’s okay.</li>
             <li>If water is involved, take photos daily as it changes.</li>
           </ul>
-          <div class="btn-row">
+          <div class="cta-row">
             <button class="button" type="button" data-close>Back</button>
           </div>
         </div>
 
-        <div class="template-box hidden" id="svc-summary" style="margin-top:12px;">
+        <div class="template-box" id="svc-summary" style="display:none;">
           <h3 style="margin-top:0;">Advocate summary</h3>
-          <ul class="list-tight">
+          <ul>
             <li>Claim type: auto / property / medical / life</li>
             <li>Claim number: (if known)</li>
             <li>What happened: (2–4 sentences)</li>
@@ -324,30 +278,25 @@
             <li>What’s due next: (documents / deadline)</li>
             <li>What you need: (approval / payment / reconsideration / explanation)</li>
           </ul>
-          <div class="btn-row">
+          <div class="cta-row">
             <button class="button" type="button" data-close>Back</button>
           </div>
         </div>
 
-        <div class="template-box hidden" id="svc-follow" style="margin-top:12px;">
+        <div class="template-box" id="svc-follow" style="display:none;">
           <h3 style="margin-top:0;">Follow-up schedule</h3>
-          <ul class="list-tight">
+          <ul>
             <li>Day 0: send documents (keep proof)</li>
             <li>Day 3: polite follow-up if no confirmation</li>
             <li>Day 7: request status + next step</li>
             <li>Every 7 days after: one clean check-in</li>
           </ul>
-          <div class="btn-row">
+          <div class="cta-row">
             <button class="button" type="button" data-close>Back</button>
           </div>
         </div>
-
-        <div class="footer-links">
-          <a href="/">Home</a> <span class="sep">·</span>
-          <a href="/status.html">Status</a> <span class="sep">·</span>
-          <a href="/legal.html">Sharpe Legal</a>
-        </div>
       </section>
+
     </div>
   </main>
 
@@ -358,14 +307,10 @@
       i: 0,
       answers: [],
       steps: [
-        { q: "Did this start with a car, truck, or motorcycle issue?",
-          opts: [["yes","Yes"],["no","No"],["ns","Not sure"]] },
-        { q: "Is the main issue damage to a home, apartment, or personal property?",
-          opts: [["yes","Yes"],["no","No"],["ns","Not sure"]] },
-        { q: "Is the main issue a medical bill, a denial, or a health claim?",
-          opts: [["yes","Yes"],["no","No"],["ns","Not sure"]] },
-        { q: "Is this about a death benefit or life insurance payout?",
-          opts: [["yes","Yes"],["no","No"],["ns","Not sure"]] }
+        { q: "Did this start with a car, truck, or motorcycle issue?", opts: [["yes","Yes"],["no","No"],["ns","Not sure"]] },
+        { q: "Is the main issue damage to a home, apartment, or personal property?", opts: [["yes","Yes"],["no","No"],["ns","Not sure"]] },
+        { q: "Is the main issue a medical bill, a denial, or a health claim?", opts: [["yes","Yes"],["no","No"],["ns","Not sure"]] },
+        { q: "Is this about a death benefit or life insurance payout?", opts: [["yes","Yes"],["no","No"],["ns","Not sure"]] }
       ],
       render(){
         $("wizQ").textContent = this.steps[this.i].q;
@@ -391,7 +336,6 @@
 
     const templates = {
       auto: {
-        chip: "Auto claim",
         lead: "This looks like a vehicle claim. The goal is to document damage, confirm coverage, and keep the timeline clean.",
         matters: "Photos, claim number, and a clear record of every call and email. Short facts beat long explanations.",
         meaning: "Delays are common. Most delays are waiting on documents, an inspection, or review. You don’t have to argue. You do need a clean paper trail.",
@@ -408,7 +352,6 @@
         ]
       },
       property: {
-        chip: "Property claim",
         lead: "This looks like a property claim. Insurers usually need photos, dates, and item details.",
         matters: "Photos over time, receipts if you have them, and a simple list of damaged items.",
         meaning: "“We need more information” usually means they can’t approve payment until damage matches the policy. Keep it factual and organized.",
@@ -425,7 +368,6 @@
         ]
       },
       medical: {
-        chip: "Medical claim",
         lead: "This looks like a medical denial or billing claim. The right move is to get the exact reason in writing.",
         matters: "Denial reason, dates of service, provider name, and the appeal window.",
         meaning: "Many denials are not final. You need the reason and the deadline to fix or appeal it.",
@@ -442,9 +384,8 @@
         ]
       },
       life: {
-        chip: "Life claim",
         lead: "This looks like a life insurance claim. The process is formal. Keep copies of everything.",
-        matters: "Policy number, claimant identity, death certificate, and the insurer’s checklist.",
+        matters: "Policy number, claimant identity, and the insurer’s checklist.",
         meaning: "Delays usually come from verification. Your job is to meet the checklist and get confirmation the file is complete.",
         today: [
           "Confirm the policy number and claims department contact.",
@@ -459,7 +400,6 @@
         ]
       },
       other: {
-        chip: "General claim",
         lead: "This looks like a general insurance problem. That’s fine. Many issues don’t fit neatly at first.",
         matters: "The exact message you received, the date you received it, and what they say is missing.",
         meaning: "Most of the time, they want something specific. Your goal is to get that list in one place and meet it on time.",
@@ -478,21 +418,14 @@
     };
 
     function showWizard(on){
-      $("wizard").classList.toggle("hidden", !on);
-      $("wizHr").classList.toggle("hidden", !on);
-      if (on) {
-        wizard.i = 0; wizard.answers = [];
-        wizard.render();
-        $("wizard").scrollIntoView({behavior:"smooth", block:"start"});
-      }
+      $("wizard").style.display = on ? "block" : "none";
+      if (on){ wizard.i = 0; wizard.answers = []; wizard.render(); }
     }
 
     function showResult(type){
       const t = templates[type] || templates.other;
-      $("result").classList.remove("hidden");
-      $("resHr").classList.remove("hidden");
+      $("result").style.display = "block";
 
-      $("resChip").textContent = t.chip;
       $("resLead").textContent = t.lead;
       $("matters").textContent = t.matters;
       $("meaning").textContent = t.meaning;
@@ -505,63 +438,45 @@
 
       const stop = $("stopList"); stop.innerHTML = "";
       t.stop.forEach(x => { const li = document.createElement("li"); li.textContent = x; stop.appendChild(li); });
-
-      $("result").scrollIntoView({behavior:"smooth", block:"start"});
     }
 
     $("btnGo").addEventListener("click", () => {
       const event = $("event").value;
-      if (event === "not_sure") {
-        showWizard(true);
-        return;
-      }
+      if (event === "not_sure") { showWizard(true); return; }
       showWizard(false);
       showResult(event);
     });
 
     $("btnWizard").addEventListener("click", () => showWizard(true));
-
     $("wizNext").addEventListener("click", () => {
       wizard.answers[wizard.i] = $("wizA").value;
-      if (wizard.i < wizard.steps.length - 1) {
-        wizard.i += 1;
-        wizard.render();
-      } else {
-        const type = wizard.decide();
-        showWizard(false);
-        showResult(type);
-      }
+      if (wizard.i < wizard.steps.length - 1) { wizard.i += 1; wizard.render(); }
+      else { showWizard(false); showResult(wizard.decide()); }
     });
-
-    $("wizBack").addEventListener("click", () => {
-      if (wizard.i > 0) { wizard.i -= 1; wizard.render(); }
-    });
-
+    $("wizBack").addEventListener("click", () => { if (wizard.i > 0) { wizard.i -= 1; wizard.render(); } });
     $("wizExit").addEventListener("click", () => showWizard(false));
 
     $("btnReset").addEventListener("click", () => {
       showWizard(false);
-      $("result").classList.add("hidden");
-      $("resHr").classList.add("hidden");
+      $("result").style.display = "none";
       window.location.hash = "#start";
     });
 
     // Services open/close
+    const svcIds = ["svc-docs","svc-email","svc-call","svc-inspect","svc-summary","svc-follow"];
     document.querySelectorAll("[data-open]").forEach(a => {
       a.addEventListener("click", (e) => {
         e.preventDefault();
         const id = a.getAttribute("data-open");
-        if (!id) return;
-        ["svc-docs","svc-email","svc-call","svc-inspect","svc-summary","svc-follow"].forEach(x => $(x).classList.add("hidden"));
-        $(id).classList.remove("hidden");
+        svcIds.forEach(x => $(x).style.display = "none");
+        $(id).style.display = "block";
         $(id).scrollIntoView({behavior:"smooth", block:"start"});
       });
     });
-
     document.querySelectorAll("[data-close]").forEach(btn => {
       btn.addEventListener("click", () => {
         const box = btn.closest(".template-box");
-        if (box) box.classList.add("hidden");
+        if (box) box.style.display = "none";
       });
     });
   </script>
