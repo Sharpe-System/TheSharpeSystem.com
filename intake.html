@@ -1,72 +1,277 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
   <title>SharpeSystem — Intake</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="/styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #ffffff;
+      color: #111;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+
+    .box {
+      max-width: 720px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+    }
+
+    .logo .e {
+      color: #c62828;
+    }
+
+    .tagline {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 26px;
+    }
+
+    .message {
+      font-size: 20px;
+      line-height: 1.4;
+      margin-bottom: 18px;
+    }
+
+    .issue {
+      margin: 0 auto 18px;
+      max-width: 640px;
+      text-align: left;
+      border: 1px solid #e6e6e6;
+      border-radius: 16px;
+      padding: 14px 16px;
+      background: #fafafa;
+      color: #111;
+      font-size: 15px;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .note {
+      margin: 14px auto 0;
+      max-width: 640px;
+      font-size: 13px;
+      color: #666;
+      min-height: 18px;
+      text-align: left;
+    }
+
+    .actions {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+
+    .card {
+      border: 1px solid #e6e6e6;
+      border-radius: 16px;
+      padding: 14px 16px;
+      background: #ffffff;
+    }
+
+    .card-title {
+      font-weight: 700;
+      font-size: 14px;
+      margin: 0 0 6px;
+    }
+
+    .card-desc {
+      margin: 0;
+      font-size: 13px;
+      color: #666;
+      line-height: 1.4;
+    }
+
+    .card a {
+      color: #111;
+      text-decoration: none;
+    }
+
+    .card a:hover {
+      text-decoration: underline;
+    }
+
+    .buttons {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button, .pill {
+      border: 1px solid #ddd;
+      background: #f7f7f7;
+      padding: 10px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 14px;
+      text-decoration: none;
+      color: #111;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button:hover, .pill:hover {
+      background: #efefef;
+    }
+
+    .divider {
+      margin: 22px auto 0;
+      max-width: 640px;
+      border-top: 1px solid #eee;
+    }
+
+    footer {
+      margin-top: 26px;
+      font-size: 12px;
+      color: #888;
+      line-height: 1.5;
+    }
+  </style>
 </head>
 
 <body>
+  <div class="page">
+    <div class="box">
+      <div class="logo">
+        Sharp<span class="e">E</span>System
+      </div>
+      <div class="tagline">
+        A calm, structured way to find the next step.
+      </div>
 
-<div id="site-header"></div>
-<script>
-  fetch('/partials/header.html')
-    .then(r => r.text())
-    .then(html => { document.getElementById('site-header').innerHTML = html; })
-    .catch(() => {});
-</script>
+      <div class="message" id="headline">
+        Okay. Here’s the reality: you don’t need closure yet — you need checkpoints.
+      </div>
 
-<main class="page">
-  <div class="container content">
+      <div class="issue" id="issueBox">Loading…</div>
 
-    <h1>Your Situation</h1>
-    <p id="userIssue" style="font-weight:600;"></p>
+      <div class="note" id="note">
+        This is not legal advice. This is procedural orientation and stabilization.
+      </div>
 
-    <hr>
+      <div class="buttons">
+        <button type="button" id="editBtn">Edit</button>
+        <a class="pill" href="/index.html">Back to Start</a>
+      </div>
 
-    <h2>First: Do Not Spiral</h2>
-    <ul>
-      <li>Do not escalate communication.</li>
-      <li>Do not drink or make impulsive decisions.</li>
-      <li>Do not attempt to “fix” everything immediately.</li>
-      <li>Stay boring. Stay clean. Stay employed.</li>
-    </ul>
+      <div class="divider"></div>
 
-    <hr>
+      <div class="actions" aria-label="Next actions">
+        <div class="card">
+          <div class="card-title">
+            <a href="/triage.html">1) Triage (best first move)</a>
+          </div>
+          <p class="card-desc">
+            Turn what you typed into a clean situation type, identify your next deadline, and stop accidental escalation.
+          </p>
+        </div>
 
-    <h2>The Vertebra (C A B D)</h2>
+        <div class="card">
+          <div class="card-title">
+            <a href="/high-conflict-risk-awareness.html">2) Risk Awareness (neutral, protective)</a>
+          </div>
+          <p class="card-desc">
+            Why intent doesn’t control outcomes under stress, how ambiguity gets interpreted, and what typically escalates cases.
+          </p>
+        </div>
 
-    <h3>C — Control</h3>
-    <p>Stabilize yourself before attempting to control the situation.</p>
+        <div class="card">
+          <div class="card-title">
+            <a href="/trees.html">3) Decision Trees (procedural map)</a>
+          </div>
+          <p class="card-desc">
+            Structured branches that show dead ends explicitly. This is the “map,” not the therapy.
+          </p>
+        </div>
 
-    <h3>A — Awareness</h3>
-    <p>Understand the institutional timeline. This will take longer than you think.</p>
+        <div class="card">
+          <div class="card-title">
+            <a href="/attorney-invite.html">4) Attorney Portal (proof of concept)</a>
+          </div>
+          <p class="card-desc">
+            The professional side: a path to limited-scope help once the system has done what it can.
+          </p>
+        </div>
+      </div>
 
-    <h3>B — Boundaries</h3>
-    <p>Reduce communication. Stop reacting emotionally.</p>
-
-    <h3>D — Documentation</h3>
-    <p>Everything runs on forms and structure. Format matters.</p>
-
-    <hr>
-
-    <p>
-      This is your starting position. More guidance will branch from here.
-    </p>
-
+      <footer>
+        SharpeSystem is being built to provide structured guidance.<br>
+        If you’re in immediate danger, contact local emergency services.
+      </footer>
+    </div>
   </div>
-</main>
 
-<script>
-  // Read issue from URL
-  const params = new URLSearchParams(window.location.search);
-  const issue = params.get("issue");
+  <script>
+    function getIssueText() {
+      // Prefer URL param ?q=...
+      const params = new URLSearchParams(window.location.search);
+      const q = (params.get("q") || "").trim();
+      if (q) return q;
 
-  if (issue) {
-    document.getElementById("userIssue").textContent = issue;
-  }
-</script>
+      // Fallback to what the landing already saves
+      try {
+        const stored = (localStorage.getItem("sharpe_start") || "").trim();
+        if (stored) return stored;
+      } catch (e) {}
 
+      return "";
+    }
+
+    function setIssue(text) {
+      const box = document.getElementById("issueBox");
+      if (!text) {
+        box.textContent = "Nothing was captured. Go back and type a few words.";
+        return;
+      }
+      box.textContent = text;
+    }
+
+    const issue = getIssueText();
+    setIssue(issue);
+
+    document.getElementById("editBtn").addEventListener("click", () => {
+      const current = (document.getElementById("issueBox").textContent || "").trim();
+      const next = window.prompt("Edit what’s going on (used only for your next steps):", current);
+      if (next === null) return;
+      const cleaned = next.trim();
+
+      setIssue(cleaned);
+
+      // Keep it consistent with your existing landing storage key:
+      try { localStorage.setItem("sharpe_start", cleaned); } catch (e) {}
+
+      // Also keep URL in sync (so refresh/share works)
+      const url = new URL(window.location.href);
+      if (cleaned) url.searchParams.set("q", cleaned);
+      else url.searchParams.delete("q");
+      window.history.replaceState({}, "", url.toString());
+    });
+  </script>
 </body>
 </html>
