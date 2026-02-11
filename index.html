@@ -142,25 +142,27 @@
   </div>
 
   <script>
-    const form = document.getElementById("startForm");
-    const input = document.getElementById("startInput");
-    const note = document.getElementById("note");
+  const form = document.getElementById("startForm");
+  const input = document.getElementById("startInput");
+  const note = document.getElementById("note");
 
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const text = input.value.trim();
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-      if (!text) {
-        note.textContent = "You can start by typing a few words.";
-        return;
-      }
+    const text = input.value.trim();
 
-      try {
-        localStorage.setItem("sharpe_start", text);
-      } catch (e) {}
+    if (!text) {
+      note.textContent = "You can start by typing a few words.";
+      return;
+    }
 
-      note.textContent = "Got it. We’ll help you turn this into a clear next step.";
-    });
-  </script>
+    try {
+      localStorage.setItem("sharpe_start", text);
+    } catch (err) {}
+
+    // Redirect to intake page
+    window.location.href = "/intake.html";
+  });
+</script>
 </body>
 </html>
